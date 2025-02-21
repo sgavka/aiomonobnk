@@ -1,5 +1,10 @@
+from aiomonobnk.enums import InitiationKind
+from aiomonobnk.types import CardData
 from .client.client import Client
-
+from .enums import (
+    CurrencyCode,
+    PaymentType
+)
 from .methods import (
     CreateInvoiceMethod,
     InvoiceStatusMethod,
@@ -11,15 +16,13 @@ from .methods import (
     SubmerchantListMethod,
     FiscalChecksMethod
 )
-from .enums import (
-    CurrencyCode,
-    PaymentType
-)
+from .methods.create_direct_invoice import CreateDirectInvoiceMethod
 from .types import (
     SaveCardData,
     Product,
     MerchantPaymInfo
 )
+from .types.direct_invoice_created import DirectInvoiceCreated
 
 
 class MonoPay(Client):
@@ -53,6 +56,33 @@ class MonoPay(Client):
             qr_id=qr_id,
             code=code,
             save_card_data=save_card_data
+        )
+
+        return await self(call, request_timeout=request_timeout)
+
+    async def create_direct_invoice(
+            self,
+            amount: int,
+            card_data: CardData,
+            ccy: CurrencyCode | None = None,
+            merchant_paym_info: MerchantPaymInfo | None = None,
+            web_hook_url: str | None = None,
+            payment_type: PaymentType | None = None,
+            save_card_data: SaveCardData | None = None,
+            redirect_url: str | None = None,
+            initiation_kind: InitiationKind | None = None,
+            request_timeout: int | None = None,
+    ) -> DirectInvoiceCreated:
+        call = CreateDirectInvoiceMethod(
+            amount=amount,
+            card_data=card_data,
+            ccy=ccy,
+            merchant_paym_info=merchant_paym_info,
+            web_hook_url=web_hook_url,
+            payment_type=payment_type,
+            save_card_data=save_card_data,
+            redirect_url=redirect_url,
+            initiation_kind=initiation_kind
         )
 
         return await self(call, request_timeout=request_timeout)

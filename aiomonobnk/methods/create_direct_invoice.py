@@ -24,13 +24,13 @@ class CreateDirectInvoiceMethod(ClientMethod):
 
     amount: int
     ccy: CurrencyCode | None = None
-    card_data: CardData
+    card_data: CardData = Field(alias='cardData')
     merchant_paym_info: MerchantPaymInfo | None = Field(alias='merchantPaymInfo', default=None)
     web_hook_url: str | None = Field(alias='webHookUrl', default=None)
     payment_type: PaymentType | None = Field(alias='paymentType', default=None)
     save_card_data: SaveCardData | None = Field(alias='saveCardData', default=None)
     redirect_url: str | None = Field(alias='redirectUrl', default=None)
-    initiation_kind: InitiationKind | None = Field(alias='initiationKind', default=None)
+    initiation_kind: InitiationKind = Field(alias='initiationKind')
 
     def __init__(
             self,
@@ -47,7 +47,7 @@ class CreateDirectInvoiceMethod(ClientMethod):
         super().__init__(
             amount=amount,
             ccy=ccy,
-            card_data=card_data,
+            cardData=card_data,
             merchantPaymInfo=merchant_paym_info,
             webHookUrl=web_hook_url,
             paymentType=payment_type,

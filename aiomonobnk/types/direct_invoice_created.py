@@ -13,7 +13,7 @@ class DirectInvoiceCreated(ClientObject):
     invoice_id: str = Field(alias='invoiceId')
     tds_url: Optional[str] = Field(alias='tdsUrl')
     status: DirectPaymentStatus
-    failure_reason: Optional[str] = Field(alias='failureReason')
+    failure_reason: Optional[str] = Field(alias='failureReason', default=None)
     amount: int
     ccy: CurrencyCode
     created_date: datetime = Field(alias='createdDate')

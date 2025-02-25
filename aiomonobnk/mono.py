@@ -17,12 +17,14 @@ from .methods import (
     FiscalChecksMethod
 )
 from .methods.create_direct_invoice import CreateDirectInvoiceMethod
+from .methods.wallet_cards import WalletCardsMethod
 from .types import (
     SaveCardData,
     Product,
     MerchantPaymInfo
 )
 from .types.direct_invoice_created import DirectInvoiceCreated
+from .types.wallet_list import WalletList
 
 
 class MonoPay(Client):
@@ -171,6 +173,17 @@ class MonoPay(Client):
     ):
         call = FiscalChecksMethod(
             invoice_id=invoice_id
+        )
+
+        return await self(call, request_timeout=request_timeout)
+
+    async def wallet_cards(
+            self,
+            wallet_id: str,
+            request_timeout: int | None = None
+    ) -> WalletList:
+        call = WalletCardsMethod(
+            wallet_id=wallet_id
         )
 
         return await self(call, request_timeout=request_timeout)
